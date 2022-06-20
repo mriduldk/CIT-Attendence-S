@@ -2,13 +2,35 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ajstudios.easyattendance">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Easy Attendance"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".AttendanceActivity"
+            android:exported="false" />
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".StudentMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -22,13 +44,9 @@
         <activity
             android:name=".Insert_class_Activity"
             android:theme="@style/AppTheme2" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

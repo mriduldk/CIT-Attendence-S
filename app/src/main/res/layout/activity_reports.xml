@@ -6,24 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Reports_Activity">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_reports"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title=" "
         app:menu="@menu/detail_class_menu"
-        app:popupTheme="@style/MyToolbarStyle"/>
+        app:popupTheme="@style/MyToolbarStyle"
+        app:title=" " />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Atendance Reports :"
-        android:textColor="@color/theme_light"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        android:text="Attendance Reports :"
+        android:textColor="@color/theme_light" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_reports"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"/>
+        android:layout_marginRight="12dp" />
 
 </LinearLayout>

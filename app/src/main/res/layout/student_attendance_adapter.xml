@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/MainBack"
+    android:orientation="horizontal"
 
     android:weightSum="6">
 
@@ -14,43 +14,35 @@
         android:layout_height="wrap_content"
         android:layout_weight="4"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="12dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
+
         <TextView
             android:id="@+id/student_name_adapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Akshay Kumar"
             android:textColor="@color/text_color_dark"
-            android:textSize="18dp"/>
+            android:textSize="18dp" />
+
         <TextView
             android:id="@+id/student_regNo_adapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="9633117104030"/>
+            android:text="9633117104030" />
     </LinearLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <TextView
+        android:id="@+id/student_status"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        tools:text="Present"
+        android:textStyle="bold"
         android:layout_gravity="center"
+        android:layout_weight="2"
         android:gravity="center"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/radio_present"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="7dp"
-            android:text="P"/>
-        <RadioButton
-            android:id="@+id/radio_absent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="7dp"
-            android:text="A"/>
-    </RadioGroup>
+        android:textColor="@color/text_color_dark"
+        android:textSize="18dp" />
 
 
 </LinearLayout>

@@ -1,53 +1,76 @@
 package com.ajstudios.easyattendance;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import com.ajstudios.easyattendance.model.ResponseAttendance;
+import com.ajstudios.easyattendance.model.ResponseMessge;
+import com.ajstudios.easyattendance.model.User;
+import com.ajstudios.easyattendance.retrofit.APIClient;
+import com.ajstudios.easyattendance.retrofit.GetResult;
+import com.ajstudios.easyattendance.utils.CustPrograssbar;
+import com.ajstudios.easyattendance.utils.SessionManager;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-import com.ajstudios.easyattendance.realm.Class_Names;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
 import co.ceryle.radiorealbutton.library.RadioRealButton;
 import co.ceryle.radiorealbutton.library.RadioRealButtonGroup;
-import io.realm.Realm;
-import io.realm.RealmAsyncTask;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 
-public class Insert_class_Activity extends AppCompatActivity {
+public class Insert_class_Activity extends AppCompatActivity implements GetResult.MyListener {
 
     Button create_button;
-    EditText _className;
     EditText _subjectName;
+    String[] departmentStr = {"CSE", "CIVIL", "IE", "ECE", "FET"};
+    String[] semesterStr = {"1ST SEM", "2ND SEM", "3RD SEM", "4TH SEM", "5TH SEM", "6TH SEM", "7TH SEM", "8TH SEM"};
 
-    Realm realm;
-    RealmAsyncTask transaction;
+    Spinner spinnerDepartment ;
+    Spinner spinnerSemester ;
+
 
     private  String position_bg = "0";
+    CustPrograssbar custPrograssbar;
+    SessionManager sessionManager;
+    User user;
+    String semStr = "", deptStr = "";
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_class_);
+
+        custPrograssbar = new CustPrograssbar();
+        sessionManager = new SessionManager(Insert_class_Activity.this);
+        user = sessionManager.getUserDetails("");
 
         Toolbar toolbar = findViewById(R.id.toolbar_insert_class);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         create_button = findViewById(R.id.button_createClass);
-        _className = findViewById(R.id.className_createClass);
         _subjectName = findViewById(R.id.subjectName_createClass);
-
-        Realm.init(this);
-        realm = Realm.getDefaultInstance();
+        spinnerDepartment = findViewById(R.id.spinnerDepartment);
+        spinnerSemester = findViewById(R.id.spinnerSemester);
 
         final RadioRealButton button1 = (RadioRealButton) findViewById(R.id.button1);
         final RadioRealButton button2 = (RadioRealButton) findViewById(R.id.button2);
@@ -70,34 +93,8 @@ public class Insert_class_Activity extends AppCompatActivity {
 
                 if (isValid()) {
 
-                    final ProgressDialog progressDialog = new ProgressDialog(Insert_class_Activity.this);
-                    progressDialog.setMessage("Creating class..");
-                    progressDialog.show();
+                    createClass();
 
-                    transaction = realm.executeTransactionAsync(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            Class_Names class_name = realm.createObject(Class_Names.class);
-                            String id = _className.getText().toString() + _subjectName.getText().toString();
-                            class_name.setId(id);
-                            class_name.setName_class(_className.getText().toString());
-                            class_name.setName_subject(_subjectName.getText().toString());
-                            class_name.setPosition_bg(position_bg);
-                        }
-                    }, new Realm.Transaction.OnSuccess() {
-                        @Override
-                        public void onSuccess() {
-                            progressDialog.dismiss();
-                            Toast.makeText(Insert_class_Activity.this, "Successfully created", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }, new Realm.Transaction.OnError() {
-                        @Override
-                        public void onError(Throwable error) {
-                            progressDialog.dismiss();
-                            Toast.makeText(Insert_class_Activity.this, "Error!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }else{
                     Toast.makeText(Insert_class_Activity.this, "Fill all details", Toast.LENGTH_SHORT).show();
                 }
@@ -108,20 +105,93 @@ public class Insert_class_Activity extends AppCompatActivity {
         });
 
 
+
+        spinnerDepartment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+
+                deptStr = departmentStr[position];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        ArrayAdapter deptAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, departmentStr);
+        deptAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDepartment.setAdapter(deptAdapter);
+
+        spinnerSemester.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+
+                semStr = semesterStr[position];
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        ArrayAdapter semAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, semesterStr);
+        semAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSemester.setAdapter(semAdapter);
+
+    }
+
+    private void createClass() {
+
+        custPrograssbar.prograssCreate(Insert_class_Activity.this);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("subject_name", _subjectName.getText().toString().trim());
+            jsonObject.put("subject_code", "123");
+            jsonObject.put("semester", semStr);
+            jsonObject.put("dept", deptStr);
+            jsonObject.put("theme", position_bg);
+            jsonObject.put("fk_teacher_id", user.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        RequestBody bodyRequest = RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        Call<JsonObject> call = APIClient.getInterface().createClass(bodyRequest);
+        GetResult getResult = new GetResult();
+        getResult.setMyListener(this);
+        getResult.callForLogin(call, "1");
+
+    }
+
+    @Override
+    public void callback(JsonObject result, String callNo) {
+
+        try {
+            custPrograssbar.closePrograssBar();
+            if (callNo.equalsIgnoreCase("1")) {
+
+                Gson gson = new Gson();
+                ResponseMessge responseMessge = gson.fromJson(result.toString(), ResponseMessge.class);
+                if (responseMessge.getResult().equals("true")) {
+
+                    Toast.makeText(this, "" + responseMessge.getResponseMsg(), Toast.LENGTH_LONG).show();
+                    finish();
+
+                } else {
+                    Toast.makeText(this, "" + responseMessge.getResponseMsg(), Toast.LENGTH_LONG).show();
+                }
+            }
+        } catch (Exception e) {
+            Log.e("Errror", "==>" + e.toString());
+        }
+
+
     }
 
     public boolean isValid(){
 
-        return !_className.getText().toString().isEmpty() && !_subjectName.getText().toString().isEmpty();
+        return !_subjectName.getText().toString().isEmpty();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home)
-        {
-            finish();
-        }
 
-        return super.onOptionsItemSelected(item);
-    }
 }

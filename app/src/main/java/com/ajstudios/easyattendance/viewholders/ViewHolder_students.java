@@ -35,8 +35,6 @@ public class ViewHolder_students extends RecyclerView.ViewHolder{
     public final TextView student_regNo;
     public LinearLayout layout;
     public String stuName, regNo, mobileNo, mRoomID;
-    public RadioGroup radioGroup;
-    public RadioButton radioButton_present, radioButton_absent;
 
     Realm realm;
     RealmChangeListener realmChangeListener;
@@ -46,9 +44,6 @@ public class ViewHolder_students extends RecyclerView.ViewHolder{
 
         student_name = itemView.findViewById(R.id.student_name_adapter);
         student_regNo = itemView.findViewById(R.id.student_regNo_adapter);
-        radioGroup = itemView.findViewById(R.id.radioGroup);
-        radioButton_present = itemView.findViewById(R.id.radio_present);
-        radioButton_absent = itemView.findViewById(R.id.radio_absent);
         layout = itemView.findViewById(R.id.layout_click);
 
         mActivity = MainActivity;
@@ -65,26 +60,18 @@ public class ViewHolder_students extends RecyclerView.ViewHolder{
                 long reports_size = realm.where(Attendance_Reports.class)
                         .equalTo("date_and_classID", roomID)
                         .count();
-                if (!(reports_size==0)){
-                    radioGroup.setVisibility(View.GONE);
-                }else if (reports_size==0) {
-                    radioGroup.setVisibility(View.VISIBLE);
-                }
+
             }
         };
         realm.addChangeListener(realmChangeListener);
         long reports_size = realm.where(Attendance_Reports.class)
                 .equalTo("date_and_classID", roomID)
                 .count();
-        if (!(reports_size==0)){
-            radioGroup.setVisibility(View.GONE);
-        }else if (reports_size==0) {
-            radioGroup.setVisibility(View.VISIBLE);
-        }
 
 
 
-        radioButton_present.setOnClickListener(new View.OnClickListener() {
+
+        /*radioButton_present.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String attendance = "Present";
@@ -142,7 +129,7 @@ public class ViewHolder_students extends RecyclerView.ViewHolder{
                 });
 
             }
-        });
+        });*/
 
 
         layout.setOnClickListener(new View.OnClickListener() {

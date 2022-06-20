@@ -1,82 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/MainBack"
+    android:orientation="vertical"
     tools:context=".Insert_class_Activity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_insert_class"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="Create Class"
-        />
+        app:title="Create Class" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Just create your class to manage daily attendance and report them. Add students in the next step"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
-        android:textColor="@color/text_color_dark"
         android:focusedByDefault="false"
-        android:layout_marginTop="16dp"/>
-
+        android:text="Just create your class to manage daily attendance and report them. Add students in the next step"
+        android:textColor="@color/text_color_dark" />
 
 
     <EditText
         android:id="@+id/subjectName_createClass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_back"
-        android:padding="16dp"
-        android:layout_marginBottom="12dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:background="@drawable/edittext_back"
         android:focusedByDefault="true"
-        android:hint="Subject name"/>
+        android:hint="Subject name"
+        android:inputType="textCapWords"
+        android:lines="1"
+        android:padding="16dp" />
 
-    <EditText
-        android:id="@+id/className_createClass"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/edittext_back"
-        android:padding="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:focusedByDefault="true"
-        android:hint="Class name"/>
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Department:"
+        android:textColor="@color/theme_light" />
+
+    <Spinner
+        android:id="@+id/spinnerDepartment"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/edittext_back" />
+
+    <TextView
+        android:id="@+id/textViewSem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Semester:"
+        android:textColor="@color/theme_light" />
+
+    <Spinner
+        android:id="@+id/spinnerSemester"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/edittext_back" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select theme :"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
+        android:text="Select theme :"
         android:textColor="@color/text_color_dark"
-        android:textSize="18dp"
-        android:layout_marginTop="12dp"/>
+        android:textSize="18dp" />
 
     <co.ceryle.radiorealbutton.library.RadioRealButtonGroup
         android:id="@+id/group"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:rrbg_bottomLineSize="0dp"
-        app:rrbg_selectorColor="@color/theme_light"
-        app:rrbg_selectorSize="6dp"
-        app:rrbg_selectorRadius="1dp"
-        app:rrbg_selectorBringToFront="true"
-        android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:rrbg_animateImages_enter="overshoot"
+        app:rrbg_animateTexts_enter="decelerate"
+        app:rrbg_bottomLineSize="0dp"
         app:rrbg_dividerSize="0dp"
         app:rrbg_position="0"
-        app:rrbg_animateTexts_enter="decelerate"
-        app:rrbg_animateImages_enter="overshoot">
+        app:rrbg_selectorBringToFront="true"
+        app:rrbg_selectorColor="@color/theme_light"
+        app:rrbg_selectorRadius="1dp"
+        app:rrbg_selectorSize="6dp">
+
         <co.ceryle.radiorealbutton.library.RadioRealButton
             android:id="@+id/button1"
             android:layout_width="wrap_content"
@@ -85,8 +104,8 @@
             app:rrb_imageHeight="50dp"
             app:rrb_imageWidth="36dp"
             app:rrb_ripple="true"
-            app:rrb_rippleColor="@color/black"
-            />
+            app:rrb_rippleColor="@color/black" />
+
         <co.ceryle.radiorealbutton.library.RadioRealButton
             android:id="@+id/button2"
             android:layout_width="wrap_content"
@@ -95,8 +114,8 @@
             app:rrb_imageHeight="50dp"
             app:rrb_imageWidth="36dp"
             app:rrb_ripple="true"
-            app:rrb_rippleColor="@color/black"
-           />
+            app:rrb_rippleColor="@color/black" />
+
         <co.ceryle.radiorealbutton.library.RadioRealButton
             android:id="@+id/button3"
             android:layout_width="wrap_content"
@@ -105,8 +124,8 @@
             app:rrb_imageHeight="50dp"
             app:rrb_imageWidth="36dp"
             app:rrb_ripple="true"
-            app:rrb_rippleColor="@color/black"
-            />
+            app:rrb_rippleColor="@color/black" />
+
         <co.ceryle.radiorealbutton.library.RadioRealButton
             android:id="@+id/button4"
             android:layout_width="wrap_content"
@@ -115,8 +134,8 @@
             app:rrb_imageHeight="36dp"
             app:rrb_imageWidth="36dp"
             app:rrb_ripple="true"
-            app:rrb_rippleColor="@color/black"
-            />
+            app:rrb_rippleColor="@color/black" />
+
         <co.ceryle.radiorealbutton.library.RadioRealButton
             android:id="@+id/button5"
             android:layout_width="wrap_content"
@@ -125,8 +144,8 @@
             app:rrb_imageHeight="36dp"
             app:rrb_imageWidth="36dp"
             app:rrb_ripple="true"
-            app:rrb_rippleColor="@color/black"
-            />
+            app:rrb_rippleColor="@color/black" />
+
         <co.ceryle.radiorealbutton.library.RadioRealButton
             android:id="@+id/button6"
             android:layout_width="wrap_content"
@@ -135,19 +154,18 @@
             app:rrb_imageHeight="36dp"
             app:rrb_imageWidth="36dp"
             app:rrb_ripple="true"
-            app:rrb_rippleColor="@color/black"
-            />
+            app:rrb_rippleColor="@color/black" />
     </co.ceryle.radiorealbutton.library.RadioRealButtonGroup>
 
     <Button
         android:id="@+id/button_createClass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:text="create"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_back"
         android:padding="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"/>
+        android:text="create"
+        android:textColor="@color/white" />
 
 </LinearLayout>

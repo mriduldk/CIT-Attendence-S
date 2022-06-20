@@ -17,8 +17,9 @@
     <FrameLayout
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         >
+
         <ImageView
             android:id="@+id/imageClass_adapter"
             android:layout_width="match_parent"
@@ -67,4 +68,5 @@
         </RelativeLayout>
 
     </FrameLayout>
+
 </com.google.android.material.card.MaterialCardView>
